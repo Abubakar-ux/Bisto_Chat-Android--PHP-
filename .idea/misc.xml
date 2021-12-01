@@ -3,11 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/activity_call.xml" value="0.2554347826086957" />
         <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/activity_create_profile.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/activity_dashboard.xml" value="0.26268115942028986" />
         <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/activity_login_screen.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/activity_register.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/activity_splash.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/fragment_call.xml" value="0.26268115942028986" />
+        <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/fragment_call_items.xml" value="0.24094202898550723" />
+        <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/fragment_contact_list.xml" value="0.26268115942028986" />
+        <entry key="..\:/Users/Aroshia/AndroidStudioProjects/assignment_4/app/src/main/res/layout/fragment_dashboard.xml" value="0.26268115942028986" />
       </map>
     </option>
   </component>

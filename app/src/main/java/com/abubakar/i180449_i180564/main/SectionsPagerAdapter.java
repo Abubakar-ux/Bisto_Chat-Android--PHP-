@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.mhassanakbar.i180564_i180449.CallFragment;
-import com.mhassanakbar.i180564_i180449.CameraFragment;
-import com.mhassanakbar.i180564_i180449.ChatFragment;
-import com.mhassanakbar.i180564_i180449.ContactFragment;
-import com.mhassanakbar.i180564_i180449.R;
+import com.abubakar.i180449_i180564.CallFragment;
+//import com.abubakar.i180449_i180564.CameraFragment;
+//import com.mhassanakbar.i180564_i180449.ChatFragment;
+//import com.mhassanakbar.i180564_i180449.ContactFragment;
+import com.abubakar.i180449_i180564.R;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -34,13 +34,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         if(position == 3){
-            return ContactFragment.newInstance(1);
+            //return ContactFragment.newInstance(1);
         }
         if(position == 1){
-            return CameraFragment.newInstance("1", "1");
+            //return CameraFragment.newInstance("1", "1");
         }
         if(position == 2) {
-            return ChatFragment.newInstance(1);
+            //return ChatFragment.newInstance(1);
         }
         if(position == 0) {
             return CallFragment.newInstance(1);

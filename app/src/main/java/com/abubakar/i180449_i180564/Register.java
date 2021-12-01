@@ -30,7 +30,7 @@ public class Register extends AppCompatActivity {
         email = findViewById(R.id.EmailAddress);
         pass = findViewById(R.id.Password);
         confirmPass = findViewById(R.id.ConfirmPassword);
-
+        Id.setIp("http://192.168.1.4/assignment4/");
         TextView login = findViewById(R.id.Login);
         login.setOnClickListener(view -> login());
 
@@ -51,7 +51,7 @@ public class Register extends AppCompatActivity {
     }
 
     protected void createProfile(String email, String password) {
-        String url="http://192.168.1.10/assignment4/getProfileByEmail.php?email="+email;
+        String url=Id.getIp()+"getProfileByEmail.php?email="+email;
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

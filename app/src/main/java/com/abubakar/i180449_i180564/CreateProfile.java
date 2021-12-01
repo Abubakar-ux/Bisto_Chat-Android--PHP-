@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -90,12 +94,23 @@ public class CreateProfile extends AppCompatActivity {
                     String Gender = gender.getText().toString();
                     String phoneno = phoneNo.getText().toString();
                     String bio = aboutMe.getText().toString();
-
-                    StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.1.10/assignment4/insert.php",
+                    String url = Id.getIp()+"insert.php";
+                    RequestQueue requestQueue = Volley.newRequestQueue(CreateProfile.this);
+                    StringRequest request = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    Toast.makeText(CreateProfile.this,"Data Inserted", Toast.LENGTH_SHORT).show();
+                                    try {
+                                        JSONObject x=new JSONObject(response);
+                                        Id.setId(x.getString("id"));
+                                        Id.setPath(x.getString("dp"));
+                                        Toast.makeText(CreateProfile.this,"Data Inserted", Toast.LENGTH_SHORT).show();
+                                        Intent intent=new Intent(CreateProfile.this,Dashboard.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -119,8 +134,6 @@ public class CreateProfile extends AppCompatActivity {
                             return params;
                         }
                     };
-
-                RequestQueue requestQueue = Volley.newRequestQueue(CreateProfile.this);
                 requestQueue.add(request);
             }
         });

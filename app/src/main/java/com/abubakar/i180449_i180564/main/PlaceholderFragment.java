@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.mhassanakbar.i180564_i180449.databinding.FragmentDashboardBinding;
+import com.abubakar.i180449_i180564.databinding.FragmentDashboardBinding;
 
 /**
  * A placeholder fragment containing a simple view.
