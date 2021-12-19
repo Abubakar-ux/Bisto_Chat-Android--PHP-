@@ -3,6 +3,7 @@ package com.abubakar.i180449_i180564;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.util.Log;
@@ -38,8 +39,7 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.Password);
         register.setOnClickListener(view -> register());
         login = findViewById(R.id.Login);
-        Id.setIp("http://192.168.1.4/assignment4/");
-
+        Id.setIp("http://192.168.1.13/assignment4/");
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +69,10 @@ public class Login extends AppCompatActivity {
                                     String dp = arr.getJSONObject(0).getString("dp");
                                     Intent toHome=new Intent(Login.this,Dashboard.class);
                                     toHome.putExtra("id",id);
+                                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = pref.edit();
+                                    editor.putString("id",id);
+                                    editor.apply(); // commit changes
                                     startActivity(toHome);
                                     finish();
                                 }

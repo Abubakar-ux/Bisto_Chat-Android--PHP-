@@ -21,7 +21,6 @@ public class CallActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
-
         Intent data= getIntent();
 
         String uriString = data.getStringExtra("img");

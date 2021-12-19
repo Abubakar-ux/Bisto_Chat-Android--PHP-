@@ -1,8 +1,11 @@
 package com.abubakar.i180449_i180564;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
@@ -37,12 +40,15 @@ import com.sinch.android.rtc.calling.Call;
 import com.sinch.android.rtc.calling.CallClient;
 import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.calling.CallListener;
+import com.sinch.android.rtc.video.VideoCallListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,10 +115,11 @@ public class CallFragment extends Fragment {
         adapter=new CallRVAdapter(mutualContacts, getContext(), CallFragment.this);
         rv.setAdapter(adapter);
 
-        senderId = getActivity().getIntent().getStringExtra("id");
+        SharedPreferences prefs = getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        senderId = prefs.getString("id", "0");
 
         sinchClient = Sinch.getSinchClientBuilder().context(getContext())
-                        .userId("4")
+                        .userId(senderId)
                         .applicationKey("b862a54e-e886-489d-9356-42970da89d44")
                         .applicationSecret("uXaIyKiXkUql3MBEdaTNew==")
                         .environmentHost("clientapi.sinch.com")
@@ -124,7 +131,6 @@ public class CallFragment extends Fragment {
         sinchClient.getCallClient().addCallClientListener(new SinchCallClientListener() {
 
         });
-
 
         sinchClient.start();
 
@@ -279,5 +285,11 @@ public class CallFragment extends Fragment {
             }
         });
         alertDialogCall.show();
+    }
+
+    public void videoCallUser(Profile user) {
+
+
+
     }
 }
