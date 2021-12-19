@@ -7,4 +7,5 @@
     <string name="tab_text_4">People</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ipaddress">http://192.168.100.8/assignment4/</string>
 </resources>
