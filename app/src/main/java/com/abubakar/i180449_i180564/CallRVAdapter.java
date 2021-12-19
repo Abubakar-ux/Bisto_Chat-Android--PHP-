@@ -48,8 +48,13 @@ public class CallRVAdapter extends RecyclerView.Adapter<CallRVAdapter.MyViewHold
         holder.callbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                  fragment.callUser(filteredList.get(position));
+            }
+        });
+        holder.videobtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -95,13 +100,14 @@ public class CallRVAdapter extends RecyclerView.Adapter<CallRVAdapter.MyViewHold
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, contactNo;
         CircleImageView profile;
-        FloatingActionButton callbtn;
+        FloatingActionButton callbtn, videobtn;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.name);
             contactNo= itemView.findViewById(R.id.contactNo);
             profile=itemView.findViewById(R.id.profile);
             callbtn = itemView.findViewById(R.id.callbtn);
+            videobtn = itemView.findViewById(R.id.videobtn);
         }
     }
 }
