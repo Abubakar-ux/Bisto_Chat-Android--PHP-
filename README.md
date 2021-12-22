@@ -1,5 +1,11 @@
 # Bisto_Chat-Android--PHP-
 
+Functionalities:
+    
+    Contacts Sync with your Mobile Contacts.
+    App to App messaging.
+    Audio Call Feature (via Sinch SDK)
+
 Dependencies:
     
     
