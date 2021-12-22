@@ -25,5 +25,9 @@ Instructions:
     
     
 Pictures:
-    ![alt text](https://drive.google.com/file/d/1HMWTgN6UkG0JX3COjwJ7-iqHRQkaZdoy/view)
+    ![Screenshot](screenshots/Screenshot_20211113-204508.jpg)
+    ![Screenshot](screenshots/Screenshot_20211113-205116.jpg)
+    ![Screenshot](screenshots/Screenshot_20211222-205138.jpg)
+    ![Screenshot](screenshots/Screenshot_20211222-205143.jpg)
+    ![Screenshot](screenshots/Screenshot_20211222-205155.jpg)
     
