@@ -18,3 +18,5 @@ Instructions:
     7. After doing all these steps, build your android gradle and its done.
     
     
+Pictures:
+    
