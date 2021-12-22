@@ -24,7 +24,7 @@ Instructions:
     7. After doing all these steps, build your android gradle and its done.
     
     
-Pictures:
+
     ![Screenshot](screenshots/Screenshot_20211113-204508.jpg)
     ![Screenshot](screenshots/Screenshot_20211113-205116.jpg)
     ![Screenshot](screenshots/Screenshot_20211222-205138.jpg)
