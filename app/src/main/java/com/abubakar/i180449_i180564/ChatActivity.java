@@ -88,8 +88,12 @@ public class ChatActivity extends AppCompatActivity {
         imagePreview = findViewById(R.id.image_preview);
         clearImage = findViewById(R.id.clear_image);
         imagePreviewBackground = findViewById(R.id.image_preview_bg);
+
         appbar_heading = findViewById(R.id.appbarHeading);
         receiverImage = findViewById(R.id.recImg);
+        appbar_heading.setText(receiverName);
+        Picasso.get().load(Id.getIp()+receiverImageUri).fit().centerCrop().into(receiverImage);
+
         messagesList = new ArrayList<>();
 
         System.out.println("BRUH"+Id.getId());
@@ -103,15 +107,17 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
+
         screenShotContentObserver = new ScreenShotContentObserver(handler, this) {
             @Override
             protected void onScreenShot(String path, String fileName) throws FileNotFoundException {
                 File file = new File(path); //this is the file of screenshot image
                 Uri screenshot = Uri.fromFile(file);
 
+                System.out.println("\n\n\n\nWorks works works\n\n\n");
                 Toast.makeText(ChatActivity.this,"Screenshot detected. "+path,Toast.LENGTH_SHORT).show();
 
-              //  clearImage();
+                //  clearImage();
 
                 InputStream inputStream = getContentResolver().openInputStream(screenshot);
                 bitmap = BitmapFactory.decodeStream(inputStream);
@@ -124,8 +130,6 @@ public class ChatActivity extends AppCompatActivity {
                 encodedImage = android.util.Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
                 PostMessage(new Message(Id.getId(), id, "Screenshot Taken!", encodedImage));
-
-                //clearImage();
             }
         };
 

@@ -6,6 +6,24 @@ public class Id extends Application {
     private static String id;
     private static String path;
     private static String ip;
+    private static String name;
+    private static String dp;
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        Id.name = name;
+    }
+
+    public static String getDp() {
+        return dp;
+    }
+
+    public static void setDp(String dp) {
+        Id.dp = dp;
+    }
 
     public static String getId() {
         return id;

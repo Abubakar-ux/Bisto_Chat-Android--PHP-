@@ -68,6 +68,8 @@ public class Login extends AppCompatActivity {
                                 if(arr.length()>0){
                                     id = arr.getJSONObject(0).getString("id");
                                     String dp = arr.getJSONObject(0).getString("dp");
+                                    Id.setDp(dp);
+                                    Id.setName(arr.getJSONObject(0).getString("name"));
                                     Intent toHome=new Intent(Login.this,Dashboard.class);
                                     toHome.putExtra("id",id);
                                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);

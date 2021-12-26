@@ -113,7 +113,9 @@ public class ContactFragment extends Fragment {
         contactList=new ArrayList<>();
         mutualContacts=new ArrayList<>();
         profileImage = view.findViewById(R.id.profilePicc);
+        Picasso.get().load(Id.getIp()+Id.getDp()).fit().centerCrop().into(profileImage);
         name = view.findViewById(R.id.name);
+        name.setText(Id.getName());
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             // requesting to the user for permission.

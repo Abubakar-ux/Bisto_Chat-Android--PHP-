@@ -1,5 +1,7 @@
 package com.abubakar.i180449_i180564;
 
+import static java.lang.Boolean.FALSE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
@@ -8,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -21,6 +25,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +41,7 @@ public class MessageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     ArrayList<Message> list;
     String rid;
     String sid;
+    boolean changeOrRemove;
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
     public static final int MESSAGE_TYPE_IN = 1;
@@ -43,6 +52,7 @@ public class MessageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static final int MESSAGE_TYPE_IN_IMAGE_ONLY = 6;
 
     public MessageRVAdapter(Context context, ArrayList<Message> list,String rid,String sid) { // you can pass other parameters in constructor
+        this.changeOrRemove = false;
         this.context = context;
         this.sid=sid;
         for(int i=0;i<list.size();i++){
@@ -51,6 +61,64 @@ public class MessageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.list=list;
 
         this.rid=rid;
+    }
+
+
+    //http://192.168.100.8/assignment4/deleteMessage.php?text=pog
+
+
+    //http://192.168.100.8/assignment4/updateMessage.php?text=[value-3]&newText=unpog
+
+    void updateMessage(String text, String newText){
+        String url=Id.getIp()+"updateMessage.php?text="+text+"&newText="+newText;
+
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray arr = new JSONArray(response);
+                    changeOrRemove = true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                changeOrRemove = false;
+                Toast.makeText(context,"Error in c=vollleyy",Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        RequestQueue queue= Volley.newRequestQueue(context);
+        queue.add(stringRequest);
+    }
+    void deleteMessage(String text){
+        String url=Id.getIp()+"deleteMessage.php?text="+text;
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray arr = new JSONArray(response);
+                    changeOrRemove = true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                changeOrRemove = false;
+                Toast.makeText(context,"Error in c=vollleyy",Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        RequestQueue queue= Volley.newRequestQueue(context);
+        queue.add(stringRequest);
+
+
     }
 
     private class MessageInViewHolder extends RecyclerView.ViewHolder {
@@ -74,10 +142,12 @@ public class MessageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private class MessageOutViewHolder extends RecyclerView.ViewHolder {
         TextView dateTime;
         TextView messageTV;
+        RelativeLayout rl;
         MessageOutViewHolder(final View itemView) {
             super(itemView);
             messageTV = itemView.findViewById(R.id.text_sent);
             dateTime = itemView.findViewById(R.id.time_date_text_sent);
+            rl = itemView.findViewById(R.id.msll);
         }
         void bind(int position) {
             Message message = list.get(position);
@@ -85,34 +155,19 @@ public class MessageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Date resultDate = new Date(message.getTimestamp()*1000);
             dateTime.setText(sdf.format(resultDate));
 
-            /*
+
             messageTV.setOnKeyListener(new View.OnKeyListener() {
                 public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                     //If the keyevent is a key-down event on the "enter" button
                     if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
+                        String text = message.getText();
                         String newText = messageTV.getText().toString();
 
                         message.setText(newText);
 
+                        updateMessage(text, newText);
 
-
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                        Query query = ref.child("Chats").orderByChild("text").equalTo(message.getText());
-                        list.remove(position);
-                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot appleSnapshot: snapshot.getChildren()) {
-                                    appleSnapshot.getRef().child("text").setValue(newText);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
                         return true;
                     }
                     return false;
@@ -120,76 +175,24 @@ public class MessageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
 
 
-            messageTV.setOnLongClickListener((View.OnLongClickListener) v -> {
-                Toast.makeText(context,"Message Deleted",Toast.LENGTH_SHORT).show();
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                Query applesQuery = ref.child("Chats").orderByChild("text").equalTo(message.getText());
-                list.remove(position);
-                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                            appleSnapshot.getRef().removeValue();
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e("0", "onCancelled", databaseError.toException());
-                    }
-                });
+
+            rl.setOnLongClickListener((View.OnLongClickListener) v -> {
+                String text = message.getText();
+                Toast.makeText(context,"Message Deleted",Toast.LENGTH_SHORT).show();
+                deleteMessage(text);
+                list.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, list.size());
+                changeOrRemove = false;
                 return false;
             });
 
-             */
+
 
         }
     }
-    /*
 
-    void deleteMessage(Message message){
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(context);
-        String url = Id.getIp()+"deleteMessage.php";
-        StringRequest MyStringRequest = new StringRequest(Request.Method.DELETE, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("reponse",response);
-                getChat();
-                clearImage();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("message error",error.getMessage());
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData;
-                MyData = new HashMap<String, String>();
-                if(encodedImage==null){
-                    MyData.put("senderId", message.getSenderId());
-                    MyData.put("receiverId", message.getReceiverId());
-                    MyData.put("text", message.getText());
-                    MyData.put("timestamp", Long.toString(message.getTimestamp()));
-                    clearImage();
-                }
-                else{
-                    MyData.put("senderId", message.getSenderId());
-                    MyData.put("receiverId", message.getReceiverId());
-                    MyData.put("text", message.getText());
-                    MyData.put("timestamp", Long.toString(message.getTimestamp()));
-                    MyData.put("image", encodedImage);
-                }
-
-                return MyData;
-            }
-        };
-
-        MyRequestQueue.add(MyStringRequest);
-    }
-
-    */
 
     private class MessageImageInViewHolder extends RecyclerView.ViewHolder {
         TextView dateTime;
@@ -219,12 +222,13 @@ public class MessageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView dateTime;
         TextView messageTV;
         ImageView image;
+        RelativeLayout rl;
         MessageImageOutViewHolder(final View itemView) {
             super(itemView);
             messageTV = itemView.findViewById(R.id.text_sent_image);
             image=itemView.findViewById(R.id.image_sent);
             dateTime = itemView.findViewById(R.id.time_date_text_sent_image);
-
+            rl = itemView.findViewById(R.id.msll);
         }
         void bind(int position) {
             Message message = list.get(position);
@@ -234,6 +238,40 @@ public class MessageRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             Date resultDate = new Date(message.getTimestamp()*1000);
             dateTime.setText(sdf.format(resultDate));
+
+            rl.setOnLongClickListener((View.OnLongClickListener) v -> {
+                String text = message.getText();
+                if(!text.equals("Screenshot Taken!")) {
+                    deleteMessage(text);
+                    Toast.makeText(context, "Message Deleted", Toast.LENGTH_SHORT).show();
+                    list.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, list.size());
+                    changeOrRemove = false;
+                }
+
+                return false;
+            });
+
+            messageTV.setOnKeyListener(new View.OnKeyListener() {
+                public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+                    //If the keyevent is a key-down event on the "enter" button
+                    if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+
+                        String text = message.getText();
+                        if(!text.equals("Screenshot Taken!")) {
+                            String newText = messageTV.getText().toString();
+
+                            message.setText(newText);
+
+                            updateMessage(text, newText);
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            });
 
         }
     }

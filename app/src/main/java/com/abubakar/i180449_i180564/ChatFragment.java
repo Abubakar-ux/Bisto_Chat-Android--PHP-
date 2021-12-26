@@ -1,5 +1,5 @@
 package com.abubakar.i180449_i180564;
-/*
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +30,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.mhassanakbar.i180564_i180449.placeholder.PlaceholderContent;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +49,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
- * A fragment representing a list of Items.
+
 
 public class ChatFragment extends Fragment {
 
@@ -56,18 +61,12 @@ public class ChatFragment extends Fragment {
     ArrayList<String> arrayList;
     ContactRVAdapter adapter;
     private final int ADD_CONTACT = 0;
-    FirebaseDatabase database;
-    DatabaseReference reference;
-    private FirebaseAuth mAuth;
     EditText searchView;
     CharSequence search ="";
     CircleImageView profileImage;
     String senderId;
     Context context;
     TextView name;
-
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
 
     public ChatFragment() {
     }
@@ -97,8 +96,6 @@ public class ChatFragment extends Fragment {
         arrayList=new ArrayList<>();
         contactList=new ArrayList<>();
         mutualContacts=new ArrayList<>();
-        mAuth = FirebaseAuth.getInstance();
-        senderId =  mAuth.getCurrentUser().getUid();
         name = view.findViewById(R.id.name);
 
         // Set the adapter
@@ -111,50 +108,9 @@ public class ChatFragment extends Fragment {
             readContacts();
         }
 
-        database=FirebaseDatabase.getInstance();
-        reference=database.getReference("ProfilesTable");
 
-        reference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        getAllUsers();
 
-                Profile x=dataSnapshot.getValue(Profile.class);
-
-                if(arrayList.contains(x.getPhoneNo()) && !x.getId().equals(mAuth.getCurrentUser().getUid())){
-                    mutualContacts.add(x);
-                }
-
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Profile x=dataSnapshot.getValue(Profile.class);
-                if(x.getId().equals(senderId)){
-                    Picasso.get().load(x.getDp()).fit().centerCrop().into(profileImage);
-                    name.setText(x.getName());
-                }
-                if(arrayList.contains(x.getPhoneNo()) && !x.getId().equals(mAuth.getCurrentUser().getUid())){
-                    mutualContacts.add(x);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         RecyclerView.LayoutManager lm= new LinearLayoutManager(getContext());
         rv.setLayoutManager(lm);
         adapter=new ContactRVAdapter(mutualContacts, getContext());
@@ -182,5 +138,54 @@ public class ChatFragment extends Fragment {
 
         phones.close();
     }
+
+
+    public void getAllUsers(){
+        ArrayList<Profile> temp=new ArrayList<>();
+        String url=Id.getIp()+"get.php";
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray arr = new JSONArray(response);
+                    for(int i=0;i<arr.length();i++) {
+                        JSONObject object1=arr.getJSONObject(i);
+                        String id=object1.get("id").toString();
+                        String email=object1.get("email").toString();
+                        String name=object1.get("name").toString();
+                        String gender=object1.get("gender").toString();
+                        String phone=object1.get("phoneno").toString();
+                        String bio=object1.get("bio").toString();
+                        String dp=object1.get("dp").toString();
+                        if(arrayList.contains(phone)){
+                            Log.d("list i:",id);
+                            Log.d("list i:",email);
+                            Log.d("list i:",name);
+                            Log.d("list i:",gender);
+                            mutualContacts.add(new Profile(id,email,name,gender,phone,bio,dp));
+                        }
+
+                    }
+                    RecyclerView.LayoutManager lm= new LinearLayoutManager(getContext());
+                    rv.setLayoutManager(lm);
+                    adapter=new ContactRVAdapter(mutualContacts, getContext());
+                    rv.setAdapter(adapter);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(),"Error in c=vollleyy",Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        RequestQueue queue= Volley.newRequestQueue(getContext());
+        queue.add(stringRequest);
+
+    }
 }
-*/
