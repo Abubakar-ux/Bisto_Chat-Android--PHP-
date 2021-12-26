@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public abstract class ScreenShotContentObserver extends ContentObserver {
 
@@ -62,6 +63,6 @@ public abstract class ScreenShotContentObserver extends ContentObserver {
         return path != null && path.toLowerCase().contains("screenshot");
     }
 
-    protected abstract void onScreenShot(String path, String fileName);
+    protected abstract void onScreenShot(String path, String fileName) throws FileNotFoundException;
 
 }

@@ -74,6 +74,10 @@ public class Login extends AppCompatActivity {
                                     SharedPreferences.Editor editor = pref.edit();
                                     editor.putString("id",id);
                                     editor.apply(); // commit changes
+
+                                    Id.setId(arr.getJSONObject(0).getString("id"));
+                                    Id.setPath(arr.getJSONObject(0).getString("dp"));
+
                                     startActivity(toHome);
                                     finish();
                                 }

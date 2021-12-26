@@ -1,4 +1,4 @@
-package com.mhassanakbar.i180564_i180449;
+package com.abubakar.i180449_i180564;
 
 
 public class Message {
@@ -7,15 +7,22 @@ public class Message {
     String text;
     Long timestamp;
     String imgSrc;
-    Boolean containsImage;
 
-    public Message(String senderId, String receiverId, String text,String imgSrc,Boolean containsImage) {
+    public Message(String senderId, String receiverId, String text,String imgSrc) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.text = text;
         this.timestamp=System.currentTimeMillis()/1000;
         this.imgSrc=imgSrc;
-        this.containsImage=containsImage;
+    }
+
+    public Message(String senderId, String receiverId, String text, String timestamp ,String imgSrc) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.text = text;
+        System.out.println("HEYYYYYYYYYYYYYYYYYYYYYYYYYY"+timestamp);
+        this.timestamp= Long.parseLong(timestamp, 10);
+        this.imgSrc=imgSrc;
     }
 
     public Message(){
@@ -30,13 +37,6 @@ public class Message {
         this.imgSrc = imgSrc;
     }
 
-    public Boolean getContainsImage() {
-        return containsImage;
-    }
-
-    public void setContainsImage(Boolean containsImage) {
-        this.containsImage = containsImage;
-    }
 
     public Long getTimestamp() {
         return timestamp;

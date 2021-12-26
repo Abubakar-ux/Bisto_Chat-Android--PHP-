@@ -40,6 +40,8 @@
             android:exported="true" />
         <activity android:name=".AddContact"
             android:exported="true"/>
+        <activity android:name=".ChatActivity"
+            android:exported="true"/>
         <activity
             android:name=".Splash"
             android:exported="true">

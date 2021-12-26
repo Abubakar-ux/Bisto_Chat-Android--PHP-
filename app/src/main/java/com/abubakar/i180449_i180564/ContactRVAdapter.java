@@ -51,15 +51,13 @@ public class ContactRVAdapter extends RecyclerView.Adapter<ContactRVAdapter.MyVi
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
+
                 Intent intent = new Intent(c, ChatActivity.class);
                 intent.putExtra("profileName",filteredList.get(position).getName());
                 intent.putExtra("id",filteredList.get(position).getId());
                 intent.putExtra("image",filteredList.get(position).getDp());
 
                 c.startActivity(intent);
-
-                 */
             }
 
         });

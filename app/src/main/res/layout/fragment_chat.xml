@@ -26,15 +26,5 @@
             android:text="Name"
             android:textColor="@color/white"
             />
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:text="CHAT"
-            android:id="@+id/chat"
-            android:textAppearance="?attr/textAppearanceListItem"
-            />
-
     </LinearLayout>
 </LinearLayout>
