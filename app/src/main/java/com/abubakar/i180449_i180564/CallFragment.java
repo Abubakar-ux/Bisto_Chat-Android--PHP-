@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -106,6 +107,15 @@ public class CallFragment extends Fragment {
         } else {
             //if app already has permission this block will execute.
             readContacts();
+        }
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // requesting to the user for permission.
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+
+        } else {
+            //if app already has permission this block will execute.
+
         }
 
         getAllUsers();
@@ -285,11 +295,5 @@ public class CallFragment extends Fragment {
             }
         });
         alertDialogCall.show();
-    }
-
-    public void videoCallUser(Profile user) {
-
-
-
     }
 }

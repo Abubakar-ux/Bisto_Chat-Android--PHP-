@@ -39,8 +39,7 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.Password);
         register.setOnClickListener(view -> register());
         login = findViewById(R.id.Login);
-        Id.setIp(getString(R.string.ipaddress));
-
+        Id.setIp("http://192.168.1.7/assignment4/");
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
