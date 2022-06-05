@@ -23,6 +23,7 @@ Instructions:
     6. The details for the table structure is provided in the profile.jpeg inside PHP_Files.
     7. After doing all these steps, build your android gradle and its done.
     
+    
 ![Screenshot](screenshots/Screenshot_20211113-204508.jpg)
 ![Screenshot](screenshots/Screenshot_20211113-205116.jpg)
 ![Screenshot](screenshots/Screenshot_20211222-205138.jpg)
